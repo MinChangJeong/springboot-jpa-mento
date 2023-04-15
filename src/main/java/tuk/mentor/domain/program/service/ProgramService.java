@@ -1,5 +1,6 @@
 package tuk.mentor.domain.program.service;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,12 @@ import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
 import tuk.mentor.domain.program.repository.ProgramRepository;
+import tuk.mentor.domain.program.repository.ProgramRepositorySupport;
 import tuk.mentor.domain.week.entity.ProgramWeek;
 import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
+import tuk.mentor.global.util.StringUtil;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +30,10 @@ import java.util.List;
 public class ProgramService {
 
     private final ProgramRepository programRepository;
+    private final ProgramRepositorySupport programRepositorySupport;
     private final MentorRepository mentorRepository;
     private final SessionManager sessionManager;
     private final DateUtil dateUtil;
-    private final JPAQueryFactory queryFactory;
-    private final EntityManager entityManager;
 
     /*
      * 프로그램 등록
@@ -84,6 +86,8 @@ public class ProgramService {
      * */
     public ProgramListResponse getProgramList(String keyword) {
         ProgramListResponse response = new ProgramListResponse();
+
+        List<Tuple> programList = programRepositorySupport.getProgramList(keyword);
 
         return response;
     }

@@ -1,4 +1,5 @@
-package tuk.mentor.global.config;
+package tuk.mentor.config;
+
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
@@ -12,4 +13,5 @@ public class QueryDslConfig {
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
     }
+
 }

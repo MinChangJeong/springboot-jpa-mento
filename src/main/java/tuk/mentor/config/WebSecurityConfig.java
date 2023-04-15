@@ -1,4 +1,4 @@
-package tuk.mentor.global.config;
+package tuk.mentor.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

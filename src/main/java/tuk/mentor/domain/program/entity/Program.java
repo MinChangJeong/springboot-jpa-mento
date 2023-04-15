@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.week.entity.ProgramWeek;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -35,4 +38,10 @@ public class Program {
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgramWeek> programWeeks = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "program_parti",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "mentee_id"))
+    private Set<Mentee> mentees = new HashSet<>();
 }

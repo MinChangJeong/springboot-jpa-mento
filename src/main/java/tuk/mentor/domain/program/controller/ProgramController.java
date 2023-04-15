@@ -2,11 +2,9 @@ package tuk.mentor.domain.program.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
+import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.service.ProgramService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,11 @@ public class ProgramController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping
-//    public ResponseEntity<CustomResponse> selectProgramList(@RequestParam("keyword") String keyword) {
-//        CustomResponse response = programService.selectProgramList(keyword);
-//        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<ProgramListResponse> getProgramList(@RequestParam("keyword") String keyword) {
+        ProgramListResponse response = programService.getProgramList(keyword);
+        return ResponseEntity.ok().body(response);
+    }
 //
 //    @GetMapping("/{id}")
 //    public ResponseEntity<CustomResponse> selectProgramDetail(@PathVariable("id") int program_no) {

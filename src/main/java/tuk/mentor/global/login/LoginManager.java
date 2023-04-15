@@ -1,4 +1,4 @@
-package tuk.mentor.global.session;
+package tuk.mentor.global.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +7,7 @@ import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
+import tuk.mentor.global.session.SessionManager;
 
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;

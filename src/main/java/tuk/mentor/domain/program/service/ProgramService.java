@@ -1,5 +1,6 @@
 package tuk.mentor.domain.program.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,14 +8,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
+import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.week.entity.ProgramWeek;
-import tuk.mentor.domain.week.mapper.ProgramWeekMapper;
-import tuk.mentor.global.session.LoginInfo;
+import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +27,11 @@ import java.util.List;
 public class ProgramService {
 
     private final ProgramRepository programRepository;
-    private final ProgramWeekMapper programWeekMapper;
     private final MentorRepository mentorRepository;
     private final SessionManager sessionManager;
     private final DateUtil dateUtil;
+    private final JPAQueryFactory queryFactory;
+    private final EntityManager entityManager;
 
     /*
      * 프로그램 등록
@@ -74,7 +77,15 @@ public class ProgramService {
 
         // [1-3] Program 기본 정보 등록
         programRepository.save(program);
+    }
 
+    /*
+     * 프로그램 목록 조회
+     * */
+    public ProgramListResponse getProgramList(String keyword) {
+        ProgramListResponse response = new ProgramListResponse();
+
+        return response;
     }
 }
 

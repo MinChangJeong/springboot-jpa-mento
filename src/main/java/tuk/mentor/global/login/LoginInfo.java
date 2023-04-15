@@ -1,4 +1,4 @@
-package tuk.mentor.global.session;
+package tuk.mentor.global.login;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -10,7 +10,7 @@ import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.schedule.dto.request.ProgramScheduleRegisterRequest;
 import tuk.mentor.domain.schedule.entity.ProgramSchedule;
 import tuk.mentor.domain.schedule.repository.ProgramScheduleRepository;
-import tuk.mentor.global.session.LoginManager;
+import tuk.mentor.global.login.LoginManager;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
 

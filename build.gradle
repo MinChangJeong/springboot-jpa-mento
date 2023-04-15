@@ -70,10 +70,15 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// QueryDSL
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor(
+			"javax.persistence:javax.persistence-api",
+			"javax.annotation:javax.annotation-api",
+			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -87,8 +92,13 @@ querydsl {
 	jpa = true
 	querydslSourcesDir = querydslDir
 }
+// QueryDSL
 sourceSets {
-	main.java.srcDir querydslDir
+	main {
+		java {
+			srcDirs = ["$projectDir/src/main/java", querydslDir]
+		}
+	}
 }
 
 configurations {

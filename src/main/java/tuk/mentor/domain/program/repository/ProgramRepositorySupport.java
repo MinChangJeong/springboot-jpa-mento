@@ -1,25 +1,20 @@
 package tuk.mentor.domain.program.repository;
 
-import com.querydsl.core.types.QTuple;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
-import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.stereotype.Repository;
+import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
-import tuk.mentor.domain.program.entity.QProgram;
+import tuk.mentor.domain.week.dto.response.ProgramWeekResponse;
 
-import javax.persistence.TupleElement;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.types.Projections.list;
 import static tuk.mentor.domain.program.entity.QProgram.program;
 import static tuk.mentor.domain.week.entity.QProgramWeek.programWeek;
-import static tuk.mentor.domain.mentor.entity.QMentor.mentor;
 
 @Repository
 public class ProgramRepositorySupport extends QuerydslRepositorySupport {
@@ -31,13 +26,27 @@ public class ProgramRepositorySupport extends QuerydslRepositorySupport {
         this.queryFactory = jpaQueryFactory;
     }
 
-    public List<Tuple> getProgramList(String keyword) {
-        return queryFactory
-                .select(program, programWeek)
-                .from(program)
-                .innerJoin(programWeek)
-                .on(program.id.eq(programWeek.program.id))
-                .fetch();
+    public List<ProgramListResponse> getProgramList(String keyword) {
+
+        return queryFactory.selectFrom(program)
+                .leftJoin(program.programWeeks, programWeek)
+                .distinct()
+                .transform(
+                        groupBy(program.id).list(
+                                Projections.constructor(ProgramListResponse.class,
+                                        program.id,
+                                        program.subject,
+                                        program.detail,
+                                        program.programStartDate,
+                                        program.programFinishDate,
+                                        program.capacity,
+                                        program.programPlace,
+                                        list(Projections.constructor(ProgramWeekResponse.class,
+                                                programWeek.id,
+                                                programWeek.detail))
+                                )
+                        )
+                );
     }
 
 }

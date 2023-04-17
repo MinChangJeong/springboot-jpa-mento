@@ -10,9 +10,7 @@ import tuk.mentor.domain.week.entity.ProgramWeek;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -37,7 +35,7 @@ public class Program {
     private String programPlace;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProgramWeek> programWeeks = new ArrayList<>();
+    private Set<ProgramWeek> programWeeks = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "program_parti",

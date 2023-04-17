@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class ProgramRegisterRequest {
-    private Long id;
     private String subject;
     private String detail;
     private String programStartDate;

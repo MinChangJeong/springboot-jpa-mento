@@ -1,7 +1,5 @@
 package tuk.mentor.domain.program.service;
 
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,18 +9,18 @@ import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
+import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramRepositorySupport;
 import tuk.mentor.domain.week.entity.ProgramWeek;
-import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
-import tuk.mentor.global.util.StringUtil;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @SessionAttributes("")
@@ -30,6 +28,7 @@ import java.util.List;
 public class ProgramService {
 
     private final ProgramRepository programRepository;
+    private final ProgramMapper programMapper;
     private final ProgramRepositorySupport programRepositorySupport;
     private final MentorRepository mentorRepository;
     private final SessionManager sessionManager;
@@ -42,18 +41,10 @@ public class ProgramService {
     public void registerProgram(ProgramRegisterRequest request, HttpServletRequest httpServletRequest) {
         // [1] 프로그램 기본 정보 등록
         // [1-1] 세션에 등록된 로그인 정보 조회 및 멘토 조회
-        LoginInfo loginInfo = (LoginInfo) sessionManager.getSession(httpServletRequest);
-        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(RuntimeException::new);
+//        LoginInfo loginInfo = (LoginInfo) sessionManager.getSession(httpServletRequest);
+//        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(RuntimeException::new);
 
-//        Mentor mentor = Mentor.builder()
-//                .id(1L)
-//                .age(2000)
-//                .email("wjdalsckd777@naver.com")
-//                .college("한국공학대학교")
-//                .major(Major.IT_MANAGEMENT)
-//                .password("asdf")
-//                .introduce("sdfas")
-//                .build();
+        Mentor mentor = mentorRepository.findById(1L).orElseThrow(EntityExistsException::new);
 
         // [1-2] Program Entity build
         Program program = Program.builder()
@@ -66,7 +57,7 @@ public class ProgramService {
                 .recruitFinishDate(dateUtil.convertStringToLocalDate(request.getRecruitFinishDate()))
                 .build();
 
-        List<ProgramWeek> programWeeks = new ArrayList<>();
+        Set<ProgramWeek> programWeeks = new HashSet<>();
         request.getProgramWeeks()
                 .forEach(programWeek -> programWeeks.add(
                         ProgramWeek.builder()
@@ -84,12 +75,10 @@ public class ProgramService {
     /*
      * 프로그램 목록 조회
      * */
-    public ProgramListResponse getProgramList(String keyword) {
-        ProgramListResponse response = new ProgramListResponse();
-
-        List<Tuple> programList = programRepositorySupport.getProgramList(keyword);
-
-        return response;
+    public List<ProgramListResponse> getProgramList(String keyword) {
+        List<ProgramListResponse> programList = programRepositorySupport.getProgramList(keyword);
+        System.out.println(programList);
+        return programList;
     }
 }
 

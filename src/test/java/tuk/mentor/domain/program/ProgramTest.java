@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import tuk.mentor.domain.mentor.entity.Major;
-import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.program.entity.Program;
 import tuk.mentor.domain.program.repository.ProgramRepositorySupport;
 import tuk.mentor.domain.week.entity.ProgramWeek;
@@ -33,20 +31,19 @@ public class ProgramTest {
     @Test
     void getProgramListTest() {
 
-        Mentor mentor = Mentor.builder()
-                .id(1L)
-                .age(2000)
-                .email("wjdalsckd777@naver.com")
-                .college("한국공학대학교")
-                .major(Major.IT_MANAGEMENT)
-                .password("asdf")
-                .introduce("sdfas")
-                .build();
-
-        entityManager.persist(mentor);
+//        Mentor mentor = Mentor.builder()
+//                .id(1L)
+//                .age(2000)
+//                .email("wjdalsckd777@naver.com")
+//                .college("한국공학대학교")
+//                .major(Major.IT_MANAGEMENT)
+//                .password("asdf")
+//                .introduce("sdfas")
+//                .build();
+//
+//        entityManager.persist(mentor);
 
         Program program1 = Program.builder()
-                .mentor(mentor)
                 .subject("program1")
                 .detail("detail1")
                 .programStartDate(LocalDate.now())
@@ -58,7 +55,6 @@ public class ProgramTest {
                 .build();
 
         Program program2 = Program.builder()
-                .mentor(mentor)
                 .subject("program2")
                 .detail("detail2")
                 .programStartDate(LocalDate.now())

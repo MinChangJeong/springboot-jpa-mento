@@ -1,23 +1,11 @@
-package tuk.mentor.domain.program.dto.response;
+package tuk.mentor.domain.week.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import tuk.mentor.domain.week.entity.ProgramWeek;
-
-import java.time.LocalDate;
 
 @Data
-@RequiredArgsConstructor
-public class ProgramListResponse {
+@AllArgsConstructor
+public class ProgramWeekResponse {
     private Long id;
-    private String subject;
     private String detail;
-    private LocalDate programStartDate;
-    private LocalDate programFinishDate;
-    private Integer capacity;
-    private String programPlace;
-
-    public ProgramListResponse(ProgramWeek programWeek){
-        Set
-    }
 }

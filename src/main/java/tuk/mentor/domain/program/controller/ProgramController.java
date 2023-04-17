@@ -8,6 +8,7 @@ import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.service.ProgramService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/program")
@@ -23,8 +24,8 @@ public class ProgramController {
     }
 
     @GetMapping
-    public ResponseEntity<ProgramListResponse> getProgramList(@RequestParam("keyword") String keyword) {
-        ProgramListResponse response = programService.getProgramList(keyword);
+    public ResponseEntity<List<ProgramListResponse>> getProgramList(@RequestParam("keyword") String keyword) {
+        List<ProgramListResponse> response = programService.getProgramList(keyword);
         return ResponseEntity.ok().body(response);
     }
 //

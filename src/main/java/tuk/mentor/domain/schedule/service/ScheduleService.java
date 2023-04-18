@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.domain.schedule.dto.request.ProgramScheduleRegisterRequest;
-import tuk.mentor.domain.schedule.entity.ProgramSchedule;
-import tuk.mentor.domain.schedule.repository.ProgramScheduleRepository;
+import tuk.mentor.domain.schedule.dto.request.ScheduleRegisterRequest;
+import tuk.mentor.domain.schedule.entity.Schedule;
+import tuk.mentor.domain.schedule.repository.ScheduleRepository;
 import tuk.mentor.global.login.LoginManager;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 @SessionAttributes("")
 @RequiredArgsConstructor
-public class ProgramScheduleService {
+public class ScheduleService {
     private final ProgramRepository programRepository;
-    private final ProgramScheduleRepository programScheduleRepository;
+    private final ScheduleRepository scheduleRepository;
     private final SessionManager sessionManager;
     private final LoginManager loginManager;
     private final DateUtil dateUtil;
@@ -30,7 +30,7 @@ public class ProgramScheduleService {
      * 프로그램 일정 등록
      * */
     @Transactional
-    public void programScheduleService(ProgramScheduleRegisterRequest request, HttpServletRequest httpServletRequest) {
+    public void scheduleService(ScheduleRegisterRequest request, HttpServletRequest httpServletRequest) {
         // [1] 프로그램 일정 기본 정보 등록
         // [1-1] 세션에 등록된 로그인 정보 조회 및 멘토 조회
         Object user = loginManager.getLoginEntity(httpServletRequest);
@@ -44,9 +44,8 @@ public class ProgramScheduleService {
 //                .introduce("sdfas")
 //                .build();
 
-        // [1-2] ProgramSchedule Entity build
-        ProgramSchedule programSchedule = ProgramSchedule.builder()
-                .program(programRepository.findById(request.getProgramId()).orElseThrow(RuntimeException::new))
+        // [1-2] Schedule Entity build
+        Schedule schedule = Schedule.builder()
                 .mentor(user.getClass().equals(Mentor.class) ? (Mentor) user : null)
                 .mentee(user.getClass().equals(Mentee.class) ? (Mentee) user : null)
                 .content(request.getContent())
@@ -55,7 +54,7 @@ public class ProgramScheduleService {
                 .build();
 
         // [1-3] Program 기본 정보 등록
-        programScheduleRepository.save(programSchedule);
+        scheduleRepository.save(schedule);
     }
 }
 

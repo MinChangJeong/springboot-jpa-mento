@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.program.entity.Program;
-import tuk.mentor.domain.schedule.entity.ScheduleType;
 
 import javax.persistence.*;
 

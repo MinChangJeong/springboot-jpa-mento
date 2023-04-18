@@ -6,21 +6,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tuk.mentor.domain.schedule.dto.request.ProgramScheduleRegisterRequest;
-import tuk.mentor.domain.schedule.service.ProgramScheduleService;
+import tuk.mentor.domain.schedule.dto.request.ScheduleRegisterRequest;
+import tuk.mentor.domain.schedule.service.ScheduleService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/schedule")
 @RequiredArgsConstructor
-public class ProgramScheduleController {
-    private final ProgramScheduleService programScheduleService;
+public class ScheduleController {
+    private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<Void> registerProgram(@RequestBody ProgramScheduleRegisterRequest programScheduleRegisterRequest,
+    public ResponseEntity<Void> registerProgram(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest,
                                                 HttpServletRequest httpServletRequest) {
-        programScheduleService.programScheduleService(programScheduleRegisterRequest, httpServletRequest);
+        scheduleService.scheduleService(scheduleRegisterRequest, httpServletRequest);
         return ResponseEntity.ok().build();
     }
 

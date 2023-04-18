@@ -3,12 +3,11 @@ package tuk.mentor.domain.schedule.dto.request;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import tuk.mentor.domain.schedule.entity.ScheduleType;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ProgramScheduleRegisterRequest {
+public class ScheduleRegisterRequest {
     private Long programId;
     private String scheduleStartDate;
     private String scheduleFinishDate;

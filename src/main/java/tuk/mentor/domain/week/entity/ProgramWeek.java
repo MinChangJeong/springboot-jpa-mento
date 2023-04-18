@@ -4,6 +4,7 @@ import lombok.*;
 import tuk.mentor.domain.program.entity.Program;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -18,4 +19,6 @@ public class ProgramWeek {
     @JoinColumn(name = "program_id")
     private Program program;
     private String detail;
+    private LocalDate programWeekStartDate;
+    private LocalDate programWeekFinishDate;
 }

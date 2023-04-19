@@ -6,5 +6,4 @@ import tuk.mentor.domain.program.entity.Program;
 
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Long> {
-
 }

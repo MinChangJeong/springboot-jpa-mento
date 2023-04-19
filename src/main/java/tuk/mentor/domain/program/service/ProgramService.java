@@ -13,8 +13,10 @@ import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramRepositorySupport;
 import tuk.mentor.domain.week.entity.ProgramWeek;
+import tuk.mentor.domain.week.mapper.ProgramWeekMapper;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
+import tuk.mentor.global.util.StringUtil;
 
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,7 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final ProgramMapper programMapper;
+    private final ProgramWeekMapper programWeekMapper;
     private final ProgramRepositorySupport programRepositorySupport;
     private final MentorRepository mentorRepository;
     private final SessionManager sessionManager;
@@ -45,32 +48,18 @@ public class ProgramService {
 
         Mentor mentor = mentorRepository.findById(1L).orElseThrow(EntityExistsException::new);
 
-        // [1-2] Program Entity build
-        Program program = Program.builder()
-                .mentor(mentor)
-                .subject(request.getSubject())
-                .detail(request.getDetail())
-                .programStartDate(dateUtil.convertStringToLocalDate(request.getProgramStartDate()))
-                .programFinishDate(dateUtil.convertStringToLocalDate(request.getProgramFinishDate()))
-                .recruitStartDate(dateUtil.convertStringToLocalDate(request.getRecruitStartDate()))
-                .recruitFinishDate(dateUtil.convertStringToLocalDate(request.getRecruitFinishDate()))
-                .build();
-
+        // [1-2] Program Entity map
         Set<ProgramWeek> programWeeks = new HashSet<>();
         request.getProgramWeeks()
                 .forEach(programWeek -> programWeeks.add(
-                        ProgramWeek.builder()
-                                .program(program)
-                                .detail(programWeek.getDetail())
-                                .programWeekStartDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekStartDate()))
-                                .programWeekFinishDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekFinishDate()))
-                                .build()
+                        programWeekMapper.toEntity(programWeek)
                 ));
 
-        program.setProgramWeeks(programWeeks);
+        Program program = programMapper.toEntity(request, mentor, programWeeks);
 
         // [1-3] Program 기본 정보 등록
         programRepository.save(program);
+
     }
 
     /*

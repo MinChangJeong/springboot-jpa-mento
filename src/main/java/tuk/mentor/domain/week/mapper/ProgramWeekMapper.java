@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProgramWeekMapper {
-    List<ProgramWeek> toEntityFromRegisterRequest(List<ProgramWeekRegisterRequest> request);
+    ProgramWeek toEntity(ProgramWeekRegisterRequest programWeekRegisterRequest);
 }

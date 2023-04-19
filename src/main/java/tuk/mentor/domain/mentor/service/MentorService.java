@@ -31,9 +31,6 @@ public class MentorService {
     * */
     @Transactional
     public MentorRegisterResponse registerMentor(MentorRegisterRequest request, MultipartFile image) throws IOException {
-
-        StringUtil stringutil = new StringUtil();
-
         // [1] Mentor 기본 정보 저장
         Mentor mentor = mentorMapper.toEntityFromRegisterRequest(request);
 
@@ -45,21 +42,16 @@ public class MentorService {
         mentor.setImgUrl(url);
 
         // [1-2] 멘토 정보 저장
+        /*
+         mentor entity의 Email 필드에 @Email 어노테이션을 붙이면 오류가 save() 안됨.
+         Mentor [id=1, role=MENTOR, emaildbwpqls@naver.com, name=...]
+         여기서 email = ? 으로 출력되지 않는게 이유가 될듯 함.
+        * */
+        mentor = mentorRepository.save(mentor);
 
-        Long id = mentorRepository
-                        .save(mentor)
-                        .getId();
-
-        System.out.println(stringutil.toString(mentor));
-
-        MentorRegisterResponse response = MentorRegisterResponse.builder()
-                .id(id)
+        return MentorRegisterResponse.builder()
+                .id(mentor.getId())
                 .role(mentor.getRole())
                 .build();
-
-        System.out.println(response.getId());
-        System.out.println(response.getRole());
-
-        return response;
     }
 }

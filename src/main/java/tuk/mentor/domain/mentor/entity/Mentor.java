@@ -19,7 +19,6 @@ public class Mentor {
     @Transient
     @Enumerated(EnumType.STRING)
     private final Role role = Role.MENTOR;
-    @Email
     private String email;
     private String name;
     private String password;

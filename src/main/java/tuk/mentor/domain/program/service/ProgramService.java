@@ -19,6 +19,8 @@ import tuk.mentor.global.util.DateUtil;
 import tuk.mentor.global.util.StringUtil;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +36,6 @@ public class ProgramService {
     private final ProgramRepositorySupport programRepositorySupport;
     private final MentorRepository mentorRepository;
     private final SessionManager sessionManager;
-    private final DateUtil dateUtil;
 
     /*
      * 프로그램 등록
@@ -55,11 +56,17 @@ public class ProgramService {
                         programWeekMapper.toEntity(programWeek)
                 ));
 
-        Program program = programMapper.toEntity(request, mentor, programWeeks);
+        /*
+        * programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.
+        * programRepository.save(program); 시 insert전에 select를 먼저 함. 이때 일치하는 program 정보가 있는 탓인지 insert를 안하는 문제가 있음.
+        * 또한 program_week 테이블의 program_id(fk)도 insert되지 않는 문제가 있다.
+        * */
+//        Program program = programMapper.toEntity(request, mentor, programWeeks);
+        Program program = programMapper.toEntity(request, programWeeks);
+        program.setMentor(mentor);
 
         // [1-3] Program 기본 정보 등록
         programRepository.save(program);
-
     }
 
     /*

@@ -1,6 +1,7 @@
 package tuk.mentor.domain.program.dto.response;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import tuk.mentor.domain.program.entity.Program;
 import tuk.mentor.domain.week.dto.response.ProgramWeekResponse;
 import tuk.mentor.domain.week.entity.ProgramWeek;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class ProgramListResponse {
     private Long id;
     private String subject;

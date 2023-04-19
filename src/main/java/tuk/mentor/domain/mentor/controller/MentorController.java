@@ -16,12 +16,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MentorController {
 
-    private final MentorService mentoService;
+    private final MentorService mentorService;
 
     @PostMapping
     public ResponseEntity<MentorRegisterResponse> registerMentor(@ModelAttribute MentorRegisterRequest mentorRegisterRequest,
                                                                  @RequestPart(value = "file", required = false) MultipartFile image) throws IOException {
-        MentorRegisterResponse response = mentoService.registerMentor(mentorRegisterRequest, image);
+        MentorRegisterResponse response = mentorService.registerMentor(mentorRegisterRequest, image);
         return ResponseEntity.ok().body(response);
     }
 }

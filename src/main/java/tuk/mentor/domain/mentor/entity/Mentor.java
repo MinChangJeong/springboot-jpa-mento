@@ -13,7 +13,6 @@ import javax.validation.constraints.Email;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mentor {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +27,8 @@ public class Mentor {
     private String college;
     @Enumerated(EnumType.STRING)
     private Major major;
+    @Enumerated(EnumType.STRING)
+    private Lesson lesson;
     private Integer grade;
     private String introduce;
     @URL

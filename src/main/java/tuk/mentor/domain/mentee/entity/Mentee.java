@@ -7,12 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 import tuk.mentor.domain.mentor.entity.Role;
-import tuk.mentor.domain.program.entity.Program;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Entity
@@ -37,7 +34,4 @@ public class Mentee {
     private String introduce;
     @URL
     private String imgUrl;
-
-    @ManyToMany(mappedBy = "mentees")
-    private Set<Program> programs = new HashSet<>();
 }

@@ -7,4 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProgramWeekRegisterRequest {
     private String detail;
+    private String programWeekStartDate;
+    private String programWeekFinishDate;
 }

@@ -19,7 +19,6 @@ import tuk.mentor.global.util.DateUtil;
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -63,6 +62,8 @@ public class ProgramService {
                         ProgramWeek.builder()
                                 .program(program)
                                 .detail(programWeek.getDetail())
+                                .programWeekStartDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekStartDate()))
+                                .programWeekFinishDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekFinishDate()))
                                 .build()
                 ));
 
@@ -75,10 +76,12 @@ public class ProgramService {
     /*
      * 프로그램 목록 조회
      * */
-    public List<ProgramListResponse> getProgramList(String keyword) {
-        List<ProgramListResponse> programList = programRepositorySupport.getProgramList(keyword);
-        System.out.println(programList);
-        return programList;
+    public ProgramListResponse getProgramList(String keyword) {
+        ProgramListResponse response = new ProgramListResponse();
+
+        System.out.println(programRepositorySupport.getProgramList(keyword));
+
+        return response;
     }
 }
 

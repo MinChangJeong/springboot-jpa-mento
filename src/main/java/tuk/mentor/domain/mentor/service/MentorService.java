@@ -11,6 +11,7 @@ import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.mapper.MentorMapper;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.global.s3.manager.S3Manager;
+import tuk.mentor.global.util.StringUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +32,8 @@ public class MentorService {
     @Transactional
     public MentorRegisterResponse registerMentor(MentorRegisterRequest request, MultipartFile image) throws IOException {
 
+        StringUtil stringutil = new StringUtil();
+
         // [1] Mentor 기본 정보 저장
         Mentor mentor = mentorMapper.toEntityFromRegisterRequest(request);
 
@@ -42,13 +45,20 @@ public class MentorService {
         mentor.setImgUrl(url);
 
         // [1-2] 멘토 정보 저장
-        entityManager.persist(mentor);
-        entityManager.flush();
+
+        Long id = mentorRepository
+                        .save(mentor)
+                        .getId();
+
+        System.out.println(stringutil.toString(mentor));
 
         MentorRegisterResponse response = MentorRegisterResponse.builder()
-                .id(mentor.getId())
+                .id(id)
                 .role(mentor.getRole())
                 .build();
+
+        System.out.println(response.getId());
+        System.out.println(response.getRole());
 
         return response;
     }

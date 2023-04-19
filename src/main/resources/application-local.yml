@@ -11,21 +11,11 @@ spring:
     password: ${datasource-password}
 
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
         format_sql: true
-        use_sql_comments: true
-        generate_statistics: false
-        ddl-auto: update
-        jdbc:
-          batch_size: 100
-        cache:
-          use_second_level_cache: false
-        logging:
-          level:
-            org.hibernate.SQL: DEBUG
-            org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 #    enabled: true
 #    encoding: UTF-8

@@ -11,6 +11,5 @@ public class ScheduleRegisterRequest {
     private Long programId;
     private String scheduleStartDate;
     private String scheduleFinishDate;
-    private ScheduleType scheduleType;
     private String content;
 }

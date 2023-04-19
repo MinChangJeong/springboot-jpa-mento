@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.week.entity.ProgramWeek;
 
@@ -36,10 +35,4 @@ public class Program {
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProgramWeek> programWeeks = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "program_parti",
-            joinColumns = @JoinColumn(name = "program_id"),
-            inverseJoinColumns = @JoinColumn(name = "mentee_id"))
-    private Set<Mentee> mentees = new HashSet<>();
 }

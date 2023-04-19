@@ -14,9 +14,9 @@ import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramRepositorySupport;
 import tuk.mentor.domain.week.entity.ProgramWeek;
 import tuk.mentor.domain.week.mapper.ProgramWeekMapper;
+import tuk.mentor.domain.week.repository.ProgramWeekRepository;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
-import tuk.mentor.global.util.StringUtil;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -24,6 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @SessionAttributes("")
@@ -31,11 +32,14 @@ import java.util.Set;
 public class ProgramService {
 
     private final ProgramRepository programRepository;
+    private final ProgramWeekRepository programWeekRepository;
     private final ProgramMapper programMapper;
     private final ProgramWeekMapper programWeekMapper;
     private final ProgramRepositorySupport programRepositorySupport;
     private final MentorRepository mentorRepository;
+    private final EntityManager entityManager;
     private final SessionManager sessionManager;
+    private final DateUtil dateUtil;
 
     /*
      * 프로그램 등록
@@ -49,24 +53,32 @@ public class ProgramService {
 
         Mentor mentor = mentorRepository.findById(1L).orElseThrow(EntityExistsException::new);
 
-        // [1-2] Program Entity map
-        Set<ProgramWeek> programWeeks = new HashSet<>();
-        request.getProgramWeeks()
-                .forEach(programWeek -> programWeeks.add(
-                        programWeekMapper.toEntity(programWeek)
-                ));
-
         /*
-        * programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.
-        * programRepository.save(program); 시 insert전에 select를 먼저 함. 이때 일치하는 program 정보가 있는 탓인지 insert를 안하는 문제가 있음.
-        * 또한 program_week 테이블의 program_id(fk)도 insert되지 않는 문제가 있다.
-        * */
-//        Program program = programMapper.toEntity(request, mentor, programWeeks);
-        Program program = programMapper.toEntity(request, programWeeks);
-        program.setMentor(mentor);
+         * 문제1. programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.
+         * programRepository.save(program); 시 insert전에 select를 먼저 함. 이때 일치하는 program 정보가 있는 탓인지 insert를 안하는 문제가 있음.
+         * 문제2. program_week 테이블의 program_id(fk)도 insert되지 않는 문제가 있다.
+         *
+         * 해결1 : select -> insert문제는 해결 못함
+         * 해결2 : program_week 테이블의 program_id(fk)도 insert되지 않는 문제는 saveAll로 해결
+         * */
+        Program program = programRepository.save(
+                Program.builder()
+                    .mentor(mentor)
+                    .subject(request.getSubject())
+                    .build()
+        );
 
-        // [1-3] Program 기본 정보 등록
-        programRepository.save(program);
+        // [1-2] Program Entity map
+        Set<ProgramWeek> programWeeks = request.getProgramWeeks().stream().map(programWeek -> ProgramWeek.builder()
+                .program(program)
+                .content(programWeek.getContent())
+                .programWeekStartDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekStartDate()))
+                .programWeekFinishDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekFinishDate()))
+                .build()).collect(Collectors.toSet());
+
+        // [1-3] Program & ProgramWeeks 기본 정보 등록
+        programWeekRepository.saveAll(programWeeks);
+
     }
 
     /*

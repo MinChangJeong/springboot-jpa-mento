@@ -18,7 +18,7 @@ public class ProgramWeek {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private Program program;
-    private String detail;
+    private String content;
     private LocalDate programWeekStartDate;
     private LocalDate programWeekFinishDate;
 }

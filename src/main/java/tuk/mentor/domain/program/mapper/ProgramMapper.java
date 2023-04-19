@@ -15,6 +15,7 @@ public interface ProgramMapper {
     Program toEntity(
             ProgramRegisterRequest programRegisterRequest, Mentor mentor, Set<ProgramWeek> programWeeks);
 
+    @Mapping(target = "mentor", source = "mentor")
     Program toEntity(
-            ProgramRegisterRequest programRegisterRequest, Set<ProgramWeek> programWeeks);
+            ProgramRegisterRequest programRegisterRequest, Mentor mentor);
 }

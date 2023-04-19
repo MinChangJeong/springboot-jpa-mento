@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.week.entity.ProgramWeek;
 
@@ -35,4 +36,5 @@ public class Program {
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProgramWeek> programWeeks = new HashSet<>();
+
 }

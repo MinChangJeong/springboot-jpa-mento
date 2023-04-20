@@ -1,4 +1,4 @@
-package tuk.mentor.domain.week.entity;
+package tuk.mentor.domain.program.entity;
 
 import lombok.*;
 import tuk.mentor.domain.program.entity.Program;

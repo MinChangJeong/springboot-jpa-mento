@@ -2,18 +2,17 @@ package tuk.mentor.domain.program.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
+import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
+import tuk.mentor.domain.program.dto.response.QProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.QProgramListResponse;
-import tuk.mentor.domain.program.entity.Program;
 
 import java.util.List;
 
+import static tuk.mentor.domain.mentor.entity.QMentor.mentor;
 import static tuk.mentor.domain.program.entity.QProgram.program;
 import static tuk.mentor.domain.program.entity.QProgramParticipation.programParticipation;
-import static tuk.mentor.domain.mentor.entity.QMentor.mentor;
 
 
 @Repository
@@ -21,6 +20,7 @@ import static tuk.mentor.domain.mentor.entity.QMentor.mentor;
 public class ProgramQueryRepositoryImpl implements ProgramQueryRepository {
     private final JPAQueryFactory queryFactory;
 
+    @Override
     public List<ProgramListResponse> getProgramList(String keyword) {
 
         return queryFactory
@@ -43,7 +43,33 @@ public class ProgramQueryRepositoryImpl implements ProgramQueryRepository {
                 ))
                 .from(program)
                 .join(program.mentor, mentor)
-                .on(program.mentor.id.eq(mentor.id))
                 .fetch();
+    }
+
+    @Override
+    public ProgramDetailResponse getProgramDetail(Long programId) {
+        return queryFactory
+                .select(new QProgramDetailResponse(
+                        mentor.id,
+                        mentor.name,
+                        mentor.college,
+                        mentor.grade,
+                        mentor.major,
+                        mentor.lesson,
+                        mentor.introduce,
+                        program.id,
+                        program.subject,
+                        program.detail,
+                        program.programStartDate,
+                        program.programFinishDate,
+                        program.recruitStartDate,
+                        program.recruitFinishDate,
+                        program.capacity,
+                        program.programPlace
+                        ))
+                .from(program)
+                .join(program.mentor, mentor)
+                .where(program.id.eq(programId))
+                .fetchOne();
     }
 }

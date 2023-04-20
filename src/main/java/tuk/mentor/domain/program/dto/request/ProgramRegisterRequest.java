@@ -2,7 +2,6 @@ package tuk.mentor.domain.program.dto.request;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import tuk.mentor.domain.week.dto.request.ProgramWeekRegisterRequest;
 
 import java.util.List;
 

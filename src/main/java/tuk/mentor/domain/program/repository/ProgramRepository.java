@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import tuk.mentor.domain.program.entity.Program;
 
 @Repository
-public interface ProgramRepository extends JpaRepository<Program, Long> {
+public interface ProgramRepository extends JpaRepository<Program, Long>, ProgramQueryRepository{
 }

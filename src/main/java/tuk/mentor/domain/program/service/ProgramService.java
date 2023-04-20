@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
+import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
+import tuk.mentor.domain.program.entity.ProgramWeek;
 import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.domain.program.repository.ProgramQueryRepositoryImpl;
-import tuk.mentor.domain.week.entity.ProgramWeek;
-import tuk.mentor.domain.week.repository.ProgramWeekRepository;
+import tuk.mentor.domain.program.repository.ProgramWeekRepository;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
 
@@ -29,7 +29,6 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final ProgramWeekRepository programWeekRepository;
-    private final ProgramQueryRepositoryImpl programQueryRepository;
     private final MentorRepository mentorRepository;
     private final SessionManager sessionManager;
     private final DateUtil dateUtil;
@@ -85,7 +84,14 @@ public class ProgramService {
      * 프로그램 목록 조회
      * */
     public List<ProgramListResponse> getProgramList(String keyword) {
-        return programQueryRepository.getProgramList(keyword);
+        return programRepository.getProgramList(keyword);
+    }
+
+    /*
+    * 프로그램 상세 조회
+    * */
+    public ProgramDetailResponse getProgramDetail(Long programId) {
+        return programRepository.getProgramDetail(programId);
     }
 }
 

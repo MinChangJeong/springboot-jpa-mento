@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Persistable;
 import tuk.mentor.domain.mentor.entity.Mentor;
-import tuk.mentor.domain.week.entity.ProgramWeek;
 
 import javax.persistence.*;
 import java.time.LocalDate;

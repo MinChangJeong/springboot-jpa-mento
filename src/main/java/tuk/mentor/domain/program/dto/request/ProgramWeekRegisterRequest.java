@@ -1,9 +1,9 @@
-package tuk.mentor.domain.week.dto.request;
+package tuk.mentor.domain.program.dto.request;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-@Getter
+@Data
 @RequiredArgsConstructor
 public class ProgramWeekRegisterRequest {
     private String content;

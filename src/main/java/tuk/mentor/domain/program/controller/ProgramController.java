@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
+import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.service.ProgramService;
 
@@ -28,12 +29,12 @@ public class ProgramController {
         List<ProgramListResponse> response = programService.getProgramList(keyword);
         return ResponseEntity.ok().body(response);
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<CustomResponse> selectProgramDetail(@PathVariable("id") int program_no) {
-//        CustomResponse response = programService.selectProgramDetail(id);
-//        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
-//    }
+
+    @GetMapping("/{programId}")
+    public ResponseEntity<ProgramDetailResponse> getProgramDetail(@PathVariable("programId") Long programId) {
+        ProgramDetailResponse response = programService.getProgramDetail(programId);
+        return ResponseEntity.ok().body(response);
+    }
 //
 //    @PostMapping("/parti")
 //    public ResponseEntity<CustomResponse> participateProgramForMentee(@RequestBody ParticipateProgramRequest participateProgramRequest) {

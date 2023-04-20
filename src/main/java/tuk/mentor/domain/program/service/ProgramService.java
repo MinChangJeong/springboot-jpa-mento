@@ -11,6 +11,7 @@ import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
 import tuk.mentor.domain.program.entity.ProgramWeek;
+import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramWeekRepository;
 import tuk.mentor.global.session.SessionManager;
@@ -30,6 +31,7 @@ public class ProgramService {
     private final ProgramRepository programRepository;
     private final ProgramWeekRepository programWeekRepository;
     private final MentorRepository mentorRepository;
+    private final ProgramMapper programMapper;
     private final SessionManager sessionManager;
     private final DateUtil dateUtil;
 
@@ -91,7 +93,10 @@ public class ProgramService {
     * 프로그램 상세 조회
     * */
     public ProgramDetailResponse getProgramDetail(Long programId) {
-        return programRepository.getProgramDetail(programId);
+        ProgramDetailResponse response = programRepository.getProgramDetail(programId);
+        List<ProgramWeek> programWeeks = programWeekRepository.getProgramWeekByProgramId(programId);
+        response.setProgramWeeks(programMapper.toProgramWeekDetailDto(programWeeks));
+        return response;
     }
 }
 

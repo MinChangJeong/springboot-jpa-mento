@@ -6,6 +6,7 @@ import tuk.mentor.domain.mentor.entity.Lesson;
 import tuk.mentor.domain.mentor.entity.Major;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class ProgramDetailResponse {
@@ -25,6 +26,7 @@ public class ProgramDetailResponse {
     private LocalDate recruitFinishDate;
     private Integer capacity;
     private String programPlace;
+    private List<ProgramWeekDetailResponse> programWeeks;
 
     @QueryProjection
     public ProgramDetailResponse(Long mentorId, String mentorName, String college, Integer grade, Major major, Lesson lesson, String introduce, Long programId, String subject, String detail, LocalDate programStartDate, LocalDate programFinishDate, LocalDate recruitStartDate, LocalDate recruitFinishDate, Integer capacity, String programPlace) {

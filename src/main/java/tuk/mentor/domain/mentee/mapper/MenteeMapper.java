@@ -5,7 +5,7 @@ import tuk.mentor.domain.mentee.dto.request.MenteeRegisterRequest;
 import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentor.dto.request.MentorRegisterRequest;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface MenteeMapper {
     Mentee toEntityFromRegisterRequest(MenteeRegisterRequest request);
 }

@@ -9,6 +9,6 @@ import tuk.mentor.domain.week.entity.ProgramWeek;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProgramWeekMapper {
 }

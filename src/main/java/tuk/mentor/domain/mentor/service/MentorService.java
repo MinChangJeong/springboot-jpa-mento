@@ -22,8 +22,6 @@ import java.io.IOException;
 public class MentorService {
     private final MentorRepository mentorRepository;
     private final MentorMapper mentorMapper;
-    @PersistenceContext
-    private final EntityManager entityManager;
     private final PasswordEncoder passwordEncoder;
     private final S3Manager s3Manager;
     /*

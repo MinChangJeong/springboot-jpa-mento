@@ -9,20 +9,16 @@ import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
-import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.domain.program.repository.ProgramRepositorySupport;
+import tuk.mentor.domain.program.repository.ProgramQueryRepositoryImpl;
 import tuk.mentor.domain.week.entity.ProgramWeek;
-import tuk.mentor.domain.week.mapper.ProgramWeekMapper;
 import tuk.mentor.domain.week.repository.ProgramWeekRepository;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
 
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,11 +29,8 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final ProgramWeekRepository programWeekRepository;
-    private final ProgramMapper programMapper;
-    private final ProgramWeekMapper programWeekMapper;
-    private final ProgramRepositorySupport programRepositorySupport;
+    private final ProgramQueryRepositoryImpl programQueryRepository;
     private final MentorRepository mentorRepository;
-    private final EntityManager entityManager;
     private final SessionManager sessionManager;
     private final DateUtil dateUtil;
 
@@ -65,6 +58,13 @@ public class ProgramService {
                 Program.builder()
                     .mentor(mentor)
                     .subject(request.getSubject())
+                        .detail(request.getDetail())
+                        .programStartDate(dateUtil.convertStringToLocalDate(request.getProgramStartDate()))
+                        .programFinishDate(dateUtil.convertStringToLocalDate(request.getProgramFinishDate()))
+                        .recruitStartDate(dateUtil.convertStringToLocalDate(request.getRecruitStartDate()))
+                        .recruitFinishDate(dateUtil.convertStringToLocalDate(request.getRecruitFinishDate()))
+                        .capacity(request.getCapacity())
+                        .programPlace(request.getProgramPlace())
                     .build()
         );
 
@@ -84,12 +84,8 @@ public class ProgramService {
     /*
      * 프로그램 목록 조회
      * */
-    public ProgramListResponse getProgramList(String keyword) {
-        ProgramListResponse response = new ProgramListResponse();
-
-        System.out.println(programRepositorySupport.getProgramList(keyword));
-
-        return response;
+    public List<ProgramListResponse> getProgramList(String keyword) {
+        return programQueryRepository.getProgramList(keyword);
     }
 }
 

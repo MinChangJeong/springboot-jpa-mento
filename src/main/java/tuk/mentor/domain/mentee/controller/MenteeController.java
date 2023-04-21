@@ -19,7 +19,7 @@ public class MenteeController {
     private final MenteeService menteeService;
 
     @PostMapping
-    public ResponseEntity<MenteeRegisterResponse> registerMentor(@ModelAttribute MenteeRegisterRequest menteeRegisterRequest,
+    public ResponseEntity<MenteeRegisterResponse> registerMentee(@ModelAttribute MenteeRegisterRequest menteeRegisterRequest,
                                                                  @RequestPart(value = "file", required = false) MultipartFile image) throws IOException {
         MenteeRegisterResponse response = menteeService.registerMentee(menteeRegisterRequest, image);
         return ResponseEntity.ok().body(response);

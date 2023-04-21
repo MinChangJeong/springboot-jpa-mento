@@ -7,5 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProgramParticipateRequest {
     private Long menteeId;
-    private Long mentorId;
+    private Long programId;
 }

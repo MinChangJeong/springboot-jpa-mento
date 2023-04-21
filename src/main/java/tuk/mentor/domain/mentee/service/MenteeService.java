@@ -42,16 +42,13 @@ public class MenteeService {
         String url = s3Manager.upload(image, s3Manager.getDirName());
         mentee.setImgUrl(url);
 
-        // [1-2] 멘토 정보 저장
-        entityManager.persist(mentee);
-        entityManager.flush();
+        // [1-2] 멘티 정보 저장
+        mentee = menteeRepository.save(mentee);
 
-        MenteeRegisterResponse response = MenteeRegisterResponse.builder()
+        return MenteeRegisterResponse.builder()
                 .id(mentee.getId())
                 .role(mentee.getRole())
                 .build();
-
-        return response;
     }
 
     public Optional<Mentee> findByEmail(String email) {

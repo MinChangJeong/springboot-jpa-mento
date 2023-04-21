@@ -24,7 +24,6 @@ public class Mentee {
     @Transient
     @Enumerated(EnumType.STRING)
     private final Role role = Role.MENTEE;
-    @Email
     private String email;
     private String name;
     private String password;

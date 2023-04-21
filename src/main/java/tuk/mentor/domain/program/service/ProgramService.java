@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import tuk.mentor.domain.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.domain.program.dto.request.ProgramParticipateRequest;
@@ -11,14 +12,16 @@ import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
 import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.entity.Program;
+import tuk.mentor.domain.program.entity.ProgramParticipation;
 import tuk.mentor.domain.program.entity.ProgramWeek;
 import tuk.mentor.domain.program.mapper.ProgramMapper;
+import tuk.mentor.domain.program.repository.ProgramParticipationRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramWeekRepository;
 import tuk.mentor.global.login.LoginInfo;
-import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
 
+import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -32,9 +35,10 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final ProgramWeekRepository programWeekRepository;
+    private final ProgramParticipationRepository programParticipationRepository;
     private final MentorRepository mentorRepository;
+    private final MenteeRepository menteeRepository;
     private final ProgramMapper programMapper;
-    private final SessionManager sessionManager;
     private final DateUtil dateUtil;
 
     /*
@@ -47,8 +51,6 @@ public class ProgramService {
         HttpSession session = httpServletRequest.getSession();
         LoginInfo loginInfo = (LoginInfo) session.getAttribute("loginInfo");
         Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(RuntimeException::new);
-
-//        Mentor mentor = mentorRepository.findById(1L).orElseThrow(EntityExistsException::new);
 
         /*
          * 문제1. programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.
@@ -106,7 +108,10 @@ public class ProgramService {
     * 프로그램 참여 정보 등록
     * */
     public void registerParticipation(ProgramParticipateRequest request) {
-
+        programParticipationRepository.save(ProgramParticipation.builder()
+                .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityExistsException::new))
+                .mentee(menteeRepository.findById(request.getMenteeId()).orElseThrow(EntityExistsException::new))
+                .build());
     }
 }
 

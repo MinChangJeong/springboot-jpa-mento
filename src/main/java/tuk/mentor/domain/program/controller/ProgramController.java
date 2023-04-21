@@ -3,6 +3,7 @@ package tuk.mentor.domain.program.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tuk.mentor.domain.program.dto.request.ProgramParticipateRequest;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
 import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
@@ -35,12 +36,12 @@ public class ProgramController {
         ProgramDetailResponse response = programService.getProgramDetail(programId);
         return ResponseEntity.ok().body(response);
     }
-//
-//    @PostMapping("/parti")
-//    public ResponseEntity<CustomResponse> participateProgramForMentee(@RequestBody ParticipateProgramRequest participateProgramRequest) {
-//        CustomResponse response = programService.participateProgramForMentee(participateProgramRequest);
-//        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
-//    }
+
+    @PostMapping("/participation")
+    public ResponseEntity<Void> registerParticipation(@RequestBody ProgramParticipateRequest programParticipateRequest) {
+        programService.registerParticipation(programParticipateRequest);
+        return ResponseEntity.ok().build();
+    }
 
 //    @GetMapping("/pdf")
 //    public ResponseEntity<CustomResponse> createPdf() throws DocumentException, IOException {

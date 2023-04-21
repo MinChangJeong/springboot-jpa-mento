@@ -49,8 +49,8 @@ public class ScheduleService {
                 .mentor(user.getClass().equals(Mentor.class) ? (Mentor) user : null)
                 .mentee(user.getClass().equals(Mentee.class) ? (Mentee) user : null)
                 .content(request.getContent())
-                .scheduleStartDate(dateUtil.convertStringToLocalDate(request.getScheduleStartDate()))
-                .scheduleStartDate(dateUtil.convertStringToLocalDate(request.getScheduleStartDate()))
+                .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleStartDate()))
+                .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleStartDate()))
                 .build();
 
         // [1-3] Program 기본 정보 등록

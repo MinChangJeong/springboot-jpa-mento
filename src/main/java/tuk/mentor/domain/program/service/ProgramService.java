@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
+import tuk.mentor.domain.program.dto.request.ProgramParticipateRequest;
 import tuk.mentor.domain.program.dto.request.ProgramRegisterRequest;
 import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
@@ -14,11 +15,12 @@ import tuk.mentor.domain.program.entity.ProgramWeek;
 import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramWeekRepository;
+import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.session.SessionManager;
 import tuk.mentor.global.util.DateUtil;
 
-import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,10 +44,11 @@ public class ProgramService {
     public void registerProgram(ProgramRegisterRequest request, HttpServletRequest httpServletRequest) {
         // [1] 프로그램 기본 정보 등록
         // [1-1] 세션에 등록된 로그인 정보 조회 및 멘토 조회
-//        LoginInfo loginInfo = (LoginInfo) sessionManager.getSession(httpServletRequest);
-//        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(RuntimeException::new);
+        HttpSession session = httpServletRequest.getSession();
+        LoginInfo loginInfo = (LoginInfo) session.getAttribute("loginInfo");
+        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(RuntimeException::new);
 
-        Mentor mentor = mentorRepository.findById(1L).orElseThrow(EntityExistsException::new);
+//        Mentor mentor = mentorRepository.findById(1L).orElseThrow(EntityExistsException::new);
 
         /*
          * 문제1. programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.
@@ -97,6 +100,13 @@ public class ProgramService {
         List<ProgramWeek> programWeeks = programWeekRepository.getProgramWeekByProgramId(programId);
         response.setProgramWeeks(programMapper.toProgramWeekDetailDto(programWeeks));
         return response;
+    }
+
+    /*
+    * 프로그램 참여 정보 등록
+    * */
+    public void registerParticipation(ProgramParticipateRequest request) {
+
     }
 }
 

@@ -8,7 +8,7 @@ import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentor.entity.Mentor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -26,6 +26,6 @@ public class Schedule {
     @JoinColumn(name = "mentee_id", nullable = true)
     private Mentee mentee;
     private String content;
-    private LocalDate scheduleStartDate;
-    private LocalDate scheduleFinishDate;
+    private LocalDateTime scheduleStartDatetime;
+    private LocalDateTime scheduleFinishDatetime;
 }

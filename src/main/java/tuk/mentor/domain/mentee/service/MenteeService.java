@@ -15,6 +15,7 @@ import tuk.mentor.global.s3.manager.S3Manager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,5 +52,9 @@ public class MenteeService {
                 .build();
 
         return response;
+    }
+
+    public Optional<Mentee> findByEmail(String email) {
+        return menteeRepository.findByEmail(email);
     }
 }

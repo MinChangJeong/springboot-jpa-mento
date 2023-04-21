@@ -11,11 +11,9 @@ import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.mapper.MentorMapper;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.global.s3.manager.S3Manager;
-import tuk.mentor.global.util.StringUtil;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,5 +49,9 @@ public class MentorService {
                 .id(mentor.getId())
                 .role(mentor.getRole())
                 .build();
+    }
+
+    public Optional<Mentor> findByEmail(String email) {
+        return mentorRepository.findByEmail(email);
     }
 }

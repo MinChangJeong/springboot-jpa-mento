@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tuk.mentor.global.exception.BadCredentialsException;
-import tuk.mentor.global.session.SessionManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final LoginService loginService;
-    private final SessionManager sessionManager;
 
     @PostMapping
     public ResponseEntity<LoginResponse> login(HttpServletRequest httpServletRequest, @RequestBody LoginRequest loginRequest) {
@@ -37,7 +35,7 @@ public class LoginController {
 
     @GetMapping
     public ResponseEntity<Void> logout(HttpServletRequest httpServletRequest) {
-        sessionManager.expire(httpServletRequest);
+        httpServletRequest.getSession().invalidate();
         return ResponseEntity.ok().build();
     }
 }

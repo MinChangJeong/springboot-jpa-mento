@@ -8,14 +8,12 @@ import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.service.MenteeService;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.service.MentorService;
-import tuk.mentor.global.session.SessionManager;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class LoginService {
-    private final SessionManager sessionManager;
     private final MentorService mentorService;
     private final MenteeService menteeService;
 

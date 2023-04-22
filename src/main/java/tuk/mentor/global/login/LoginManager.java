@@ -1,28 +1,27 @@
 package tuk.mentor.global.login;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
-import tuk.mentor.global.session.SessionManager;
 
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Component
 @RequiredArgsConstructor
 public class LoginManager {
-
-    private final SessionManager sessionManager;
+    private final String SESSION_NAME = "loginInfo";
     private MentorRepository mentorRepository;
     private MenteeRepository menteeRepository;
-    public <T> T getLoginEntity(HttpServletRequest httpServletRequest) {
-        ObjectMapper mapper = new ObjectMapper();
 
-        LoginInfo loginInfo = (LoginInfo) sessionManager.getSession(httpServletRequest);
+    public <T> T getLoginEntity(HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        LoginInfo loginInfo = (LoginInfo) session.getAttribute(SESSION_NAME);
+
         switch (loginInfo.getRole()) {
             case MENTOR -> {
                 Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).

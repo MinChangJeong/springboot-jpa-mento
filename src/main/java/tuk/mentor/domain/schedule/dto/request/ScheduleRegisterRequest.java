@@ -8,8 +8,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class ScheduleRegisterRequest {
-    private Long programId;
-    private String scheduleStartDate;
-    private String scheduleFinishDate;
     private String content;
+    private String scheduleStartDatetime;
+    private String scheduleFinishDatetime;
 }

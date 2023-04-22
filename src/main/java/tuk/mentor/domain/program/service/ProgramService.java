@@ -3,7 +3,6 @@ package tuk.mentor.domain.program.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import tuk.mentor.domain.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
@@ -29,7 +28,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@SessionAttributes("")
 @RequiredArgsConstructor
 public class ProgramService {
 

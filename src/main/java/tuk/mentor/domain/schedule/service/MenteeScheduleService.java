@@ -11,7 +11,7 @@ import tuk.mentor.domain.schedule.repository.MenteeScheduleRepository;
 import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.util.DateUtil;
 
-import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @Qualifier("menteeScheduleService")
@@ -28,7 +28,7 @@ public class MenteeScheduleService implements ScheduleService{
     @Transactional
     public void registerSchedule(ScheduleRegisterRequest request, LoginInfo loginInfo) {
         scheduleRepository.save(MenteeSchedule.builder()
-                .mentee(menteeRepository.findById(loginInfo.getUserID()).orElseThrow(EntityExistsException::new))
+                .mentee(menteeRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new))
                 .content(request.getContent())
                 .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleStartDatetime()))
                 .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleFinishDatetime()))

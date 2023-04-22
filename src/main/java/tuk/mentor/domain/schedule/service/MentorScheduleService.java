@@ -11,7 +11,7 @@ import tuk.mentor.domain.schedule.repository.MentorScheduleRepository;
 import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.util.DateUtil;
 
-import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @Qualifier("mentorScheduleService")
@@ -28,10 +28,10 @@ public class MentorScheduleService implements ScheduleService{
     @Transactional
     public void registerSchedule(ScheduleRegisterRequest request, LoginInfo loginInfo) {
         scheduleRepository.save(MentorSchedule.builder()
-                .mentor(mentorRepository.findById(loginInfo.getUserID()).orElseThrow(EntityExistsException::new))
+                .mentor(mentorRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new))
                 .content(request.getContent())
                 .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleStartDatetime()))
-                .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleFinishDatetime()))
+                .scheduleFinishDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleFinishDatetime()))
                 .build());
     }
 }

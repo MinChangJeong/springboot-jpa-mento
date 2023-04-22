@@ -7,7 +7,7 @@ import tuk.mentor.domain.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 
-import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,7 +34,7 @@ public class LoginManager {
                 return (T) mentee;
             }
             default -> {
-                throw new EntityExistsException();
+                throw new EntityNotFoundException();
             }
         }
     }

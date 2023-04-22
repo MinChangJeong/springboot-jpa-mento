@@ -20,7 +20,7 @@ import tuk.mentor.domain.program.repository.ProgramWeekRepository;
 import tuk.mentor.global.login.LoginInfo;
 import tuk.mentor.global.util.DateUtil;
 
-import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -107,8 +107,8 @@ public class ProgramService {
     * */
     public void registerParticipation(ProgramParticipateRequest request) {
         programParticipationRepository.save(ProgramParticipation.builder()
-                .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityExistsException::new))
-                .mentee(menteeRepository.findById(request.getMenteeId()).orElseThrow(EntityExistsException::new))
+                .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
+                .mentee(menteeRepository.findById(request.getMenteeId()).orElseThrow(EntityNotFoundException::new))
                 .build());
     }
 }

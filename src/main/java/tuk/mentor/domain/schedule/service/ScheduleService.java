@@ -9,6 +9,6 @@ import java.util.List;
 
 @Service
 public interface ScheduleService {
-    void registerSchedule(ScheduleRegisterRequest request, LoginInfo loginInfo);
+    void registerSchedule(ScheduleRegisterRequest request, LoginInfo loginInfo) throws Exception;
     List<ScheduleListResponse> getScheduleList(LoginInfo loginInfo);
 }
